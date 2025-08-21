@@ -1,47 +1,75 @@
 <!doctype html>
 <html lang="sv">
 <head>
-  <meta charset="utf-8">
-  <title>Swish RP</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RP Betalning</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="phone-frame">
-    <div class="status-bar">
-      <span>09:41</span>
-      <div class="icons">📶 🔋</div>
-    </div>
+<div class="phone-frame">
+<!-- Pseudo statusbar -->
+<div class="status-bar">
+<div class="status-left">09:41</div>
+<div class="status-right">📶 🔋</div>
+</div>
 
-    <div id="app" class="swish-app">
-      <!-- Betalningsvy -->
-      <div id="paymentView">
-        <header>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Swish_Logo.png" alt="Swish" class="logo">
-          <h1>Betala</h1>
-        </header>
 
-        <main>
-          <input id="amount" type="number" placeholder="Ange belopp" class="amount-input"> <span class="currency">kr</span>
+<div class="app">
+<!-- Header / branding (egen generisk logotyp, ej Swish original) -->
+<header class="app-header">
+<div class="brand-mark" aria-hidden="true"></div>
+<h1 class="app-title">Betala</h1>
+</header>
 
-          <input id="message" type="text" placeholder="Meddelande (valfritt)" class="message-input">
 
-          <button id="swishBtn" class="swish-button">Swisha</button>
-        </main>
-      </div>
+<!-- Betalningsvy -->
+<main id="paymentView" class="view view-active" role="region" aria-label="Betalning">
+<div class="input-group">
+<label for="phone">Telefonnummer</label>
+<div class="phone-row">
+<span class="country">SE +46</span>
+<input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="07x xxx xx xx" aria-describedby="phoneHelp">
+</div>
+<small id="phoneHelp" class="help">Ange mottagarens mobilnummer (svenskt). Du kan skriva 07… eller +46…</small>
+</div>
 
-      <!-- Kvitto-vy -->
-      <div id="receiptView" class="hidden">
-        <div class="receipt-content">
-          <div class="checkmark">✔</div>
-          <h2>Betalning genomförd</h2>
-          <p id="receiptAmount"></p>
-          <p id="receiptMessage"></p>
-          <button id="backBtn" class="back-button">Tillbaka</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <script src="script.js"></script>
+<div class="amount-wrap">
+<input id="amount" type="number" inputmode="decimal" min="1" step="1" placeholder="0" class="amount-input" aria-label="Belopp">
+<span class="currency">kr</span>
+</div>
+
+
+<div class="input-group">
+<label for="message">Meddelande <span class="muted">(valfritt)</span></label>
+<input id="message" type="text" maxlength="50" placeholder="T.ex. Köp i spelet">
+</div>
+
+
+<button id="payBtn" class="btn-primary" aria-label="Swisha">Swisha</button>
+</main>
+
+
+<!-- Kvitto / resultat -->
+<section id="receiptView" class="view" role="region" aria-label="Kvitto" aria-hidden="true">
+<div class="receipt-card">
+<div class="checkmark" aria-hidden="true">✔</div>
+<h2 class="receipt-title">Betalning genomförd</h2>
+<p class="receipt-amount" id="rAmount">—</p>
+<div class="receipt-meta">
+<div><span class="meta-label">Till</span><span id="rPhone">—</span></div>
+<div><span class="meta-label">Meddelande</span><span id="rMessage">—</span></div>
+<div><span class="meta-label">Tid</span><span id="rTime">—</span></div>
+<div><span class="meta-label">Referens</span><span id="rRef">—</span></div>
+</div>
+<button id="doneBtn" class="btn-secondary">Klar</button>
+</div>
+</section>
+</div>
+</div>
+
+
+<script src="script.js"></script>
 </body>
 </html>
