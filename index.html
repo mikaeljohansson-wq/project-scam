@@ -2,32 +2,44 @@
 <html lang="sv">
 <head>
   <meta charset="utf-8">
-  <title>Swish-betalning (Demo)</title>
+  <title>Swish RP</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="swish-app">
-    <header>
-      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Swish_Logo.png" alt="Swish" class="logo">
-      <h1>Betala med Swish</h1>
-    </header>
+  <div class="phone-frame">
+    <div class="status-bar">
+      <span>09:41</span>
+      <div class="icons">📶 🔋</div>
+    </div>
 
-    <main>
-      <label for="amount">Belopp (SEK)</label>
-      <input id="amount" type="number" value="100" min="1">
+    <div id="app" class="swish-app">
+      <!-- Betalningsvy -->
+      <div id="paymentView">
+        <header>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Swish_Logo.png" alt="Swish" class="logo">
+          <h1>Betala</h1>
+        </header>
 
-      <label for="message">Meddelande</label>
-      <input id="message" type="text" placeholder="T.ex. Köp i spelet">
+        <main>
+          <input id="amount" type="number" placeholder="Ange belopp" class="amount-input"> <span class="currency">kr</span>
 
-      <button id="payBtn">Swisha nu</button>
+          <input id="message" type="text" placeholder="Meddelande (valfritt)" class="message-input">
 
-      <div id="status">Status: –</div>
-
-      <div id="qr" class="qr-box hidden">
-        <p>Scanna QR i Swish-appen:</p>
-        <img id="qrImage" alt="QR-kod">
+          <button id="swishBtn" class="swish-button">Swisha</button>
+        </main>
       </div>
-    </main>
+
+      <!-- Kvitto-vy -->
+      <div id="receiptView" class="hidden">
+        <div class="receipt-content">
+          <div class="checkmark">✔</div>
+          <h2>Betalning genomförd</h2>
+          <p id="receiptAmount"></p>
+          <p id="receiptMessage"></p>
+          <button id="backBtn" class="back-button">Tillbaka</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="script.js"></script>
