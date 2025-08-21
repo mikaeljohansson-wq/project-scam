@@ -1,86 +1,34 @@
-// Hjälpfunktioner
-}
+const sendBtn = document.getElementById('sendBtn');
+const receipt = document.getElementById('receipt');
+const phoneInput = document.getElementById('phone');
+const amountInput = document.getElementById('amount');
+const messageInput = document.getElementById('message');
+const sendSound = document.getElementById('sendSound');
 
+sendBtn.addEventListener('click', () => {
+    const phone = phoneInput.value;
+    const amount = amountInput.value;
+    const message = messageInput.value || "Inget meddelande";
+    const ref = Math.floor(Math.random() * 1000000);
 
-function randomRef() {
-return "RP" + Math.random().toString(36).slice(2, 8).toUpperCase();
-}
+    if (!phone || !amount) {
+        alert("Fyll i telefonnummer och belopp!");
+        return;
+    }
 
+    const now = new Date();
+    const timeStr = now.toLocaleDateString('sv-SE') + " " + now.toLocaleTimeString('sv-SE');
 
-// Elemente
-const paymentView = document.getElementById("paymentView");
-const receiptView = document.getElementById("receiptView");
-const phoneEl = document.getElementById("phone");
-const amountEl = document.getElementById("amount");
-const messageEl = document.getElementById("message");
-const payBtn = document.getElementById("payBtn");
-const doneBtn = document.getElementById("doneBtn");
+    document.getElementById('receiptPhone').textContent = `Till: ${phone}`;
+    document.getElementById('receiptAmount').textContent = `Belopp: ${amount} kr`;
+    document.getElementById('receiptMessage').textContent = `Meddelande: ${message}`;
+    document.getElementById('receiptTime').textContent = `Tid: ${timeStr}`;
+    document.getElementById('receiptRef').textContent = `Referens: ${ref}`;
 
+    receipt.style.display = "block";
+    sendSound.play();
 
-const rAmount = document.getElementById("rAmount");
-const rPhone = document.getElementById("rPhone");
-const rMessage = document.getElementById("rMessage");
-const rTime = document.getElementById("rTime");
-const rRef = document.getElementById("rRef");
-
-
-// Input UX
-phoneEl.addEventListener("blur", () => {
-const norm = normalizeSwedishPhone(phoneEl.value);
-phoneEl.value = norm;
-});
-
-
-payBtn.addEventListener("click", () => {
-const phone = normalizeSwedishPhone(phoneEl.value);
-const amount = amountEl.value.replace(/,/g, '.');
-const message = messageEl.value.trim();
-
-
-// Enkel validering
-const phoneValid = /^\+46\d{7,11}$/.test(phone);
-const amountValid = Number(amount) > 0;
-
-
-if (!phoneValid) {
-phoneEl.focus();
-phoneEl.classList.add("error");
-setTimeout(() => phoneEl.classList.remove("error"), 800);
-return;
-}
-if (!amountValid) {
-amountEl.focus();
-amountEl.classList.add("error");
-setTimeout(() => amountEl.classList.remove("error"), 800);
-return;
-}
-
-
-// Fyll kvitto
-rAmount.textContent = prettyAmount(amount);
-rPhone.textContent = phone;
-rMessage.textContent = message || "—";
-rTime.textContent = nowString();
-rRef.textContent = randomRef();
-
-
-// Visa kvitto
-paymentView.classList.remove("view-active");
-receiptView.classList.add("view-active");
-receiptView.setAttribute("aria-hidden", "false");
-});
-
-
-// Tillbaka / klar
-doneBtn.addEventListener("click", () => {
-receiptView.classList.remove("view-active");
-paymentView.classList.add("view-active");
-receiptView.setAttribute("aria-hidden", "true");
-
-
-// Nollställ bara belopp & meddelande, behåll telefon för snabb upprepning
-amountEl.value = "";
-messageEl.value = "";
-amountEl.blur();
-messageEl.blur();
+    phoneInput.value = "";
+    amountInput.value = "";
+    messageInput.value = "";
 });
